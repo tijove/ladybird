@@ -1,0 +1,6 @@
+element.style: DataCloneError
+element.style postMessage: DataCloneError
+getComputedStyle(): DataCloneError
+getComputedStyle() postMessage: DataCloneError
+CSSFontFaceRule.style: DataCloneError
+CSSFontFaceRule.style postMessage: DataCloneError

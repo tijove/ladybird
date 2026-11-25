@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<script src="../include.js"></script>
+<style>
+    @font-face {
+        font-family: "test";
+        src: url("does-not-exist.woff2");
+    }
+</style>
+<script>
+    test(() => {
+        const values = {
+            "element.style": document.documentElement.style,
+            "getComputedStyle()": getComputedStyle(document.documentElement),
+            "CSSFontFaceRule.style": document.styleSheets[0].cssRules[0].style,
+        };
+
+        for (const [name, value] of Object.entries(values)) {
+            try {
+                structuredClone(value);
+                println(`${name}: no exception`);
+            } catch (e) {
+                println(`${name}: ${e.name}`);
+            }
+
+            try {
+                new MessageChannel().port1.postMessage(value);
+                println(`${name} postMessage: no exception`);
+            } catch (e) {
+                println(`${name} postMessage: ${e.name}`);
+            }
+        }
+    });
+</script>

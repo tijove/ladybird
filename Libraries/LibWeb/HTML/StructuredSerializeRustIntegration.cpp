@@ -143,6 +143,10 @@ bool web_structured_serialize_cpp_interface_name(JSObject* object, u16* interfac
     auto* wrappable = Bindings::wrappable_impl_from(JS::HostABI::object_from_abi(object));
     if (!wrappable)
         return false;
+    // NB: The primary interface of a wrapper whose wrappable an object of an interface implemented in Rust owns is the
+    //     Rust object's, which the serializer looks for first. Such a wrappable may have no interface of its own.
+    if (wrappable->is_owned_by_rust_interface_object())
+        return false;
     *interface_name = to_underlying(wrappable->interface_name());
     return true;
 }
